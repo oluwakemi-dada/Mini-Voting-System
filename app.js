@@ -131,18 +131,16 @@ const decreaseVoteCountOnly = (e, index) => {
 };
 
 // INCREASE VOTE COUNT ONLY
-const increaseVoteCountOnly = (e, index) => {
-  voteCount[index] = 1;
-  e.target.previousElementSibling.value = voteCount[index];
-  voteByInput(e);
-};
+// const increaseVoteCountOnly = (e, index) => {
+//   voteCount[index] = 1;
+//   e.target.previousElementSibling.value = voteCount[index];
+//   voteByInput(e);
+// };
 
 // UPVOTES
 upVote0.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 0);
-  } else if (voteCount[0] < 0) {
-    increaseVoteCountOnly(e, 0);
   } else {
     showError(e, '*Excess vote');
   }
@@ -151,8 +149,6 @@ upVote0.addEventListener('click', (e) => {
 upVote1.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 1);
-  } else if (availableVotes > totalVotes) {
-    increaseVoteCountOnly(e, 1);
   } else {
     showError(e, '*Excess vote');
   }
@@ -161,8 +157,6 @@ upVote1.addEventListener('click', (e) => {
 upVote2.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 2);
-  } else if (availableVotes > totalVotes) {
-    increaseVoteCountOnly(e, 2);
   } else {
     showError(e, '*Excess vote');
   }
@@ -171,8 +165,6 @@ upVote2.addEventListener('click', (e) => {
 upVote3.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 3);
-  } else if (availableVotes > totalVotes) {
-    increaseVoteCountOnly(e, 3);
   } else {
     showError(e, '*Excess vote');
   }
@@ -181,8 +173,6 @@ upVote3.addEventListener('click', (e) => {
 upVote4.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 4);
-  } else if (availableVotes > totalVotes) {
-    increaseVoteCountOnly(e, 4);
   } else {
     showError(e, '*Excess vote');
   }
@@ -191,8 +181,6 @@ upVote4.addEventListener('click', (e) => {
 upVote5.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 5);
-  } else if (availableVotes > totalVotes) {
-    increaseVoteCountOnly(e, 5);
   } else {
     showError(e, '*Excess vote');
   }
