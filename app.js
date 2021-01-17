@@ -58,7 +58,7 @@ const voteByInput = (e) => {
     if (!isNaN(voteValue)) {
       usedVotes += voteValue;
       voteCount[index] = voteValue;
-      // If input value is an empty string
+      // If input value is NaN
     } else {
       voteCount[index] = 0;
     }
@@ -126,7 +126,6 @@ const decreaseVoteCountOnly = (e, index) => {
   voteCount[index]--;
   e.target.nextElementSibling.value = voteCount[index];
   voteByInput(e);
-  // showError(e, '*Excess vote');
 };
 
 // INCREASE VOTE COUNT ONLY
@@ -156,6 +155,7 @@ upVote1.addEventListener('click', (e) => {
     showError(e, '*Excess vote');
   }
 });
+
 upVote2.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 2);
@@ -165,6 +165,7 @@ upVote2.addEventListener('click', (e) => {
     showError(e, '*Excess vote');
   }
 });
+
 upVote3.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 3);
@@ -174,6 +175,7 @@ upVote3.addEventListener('click', (e) => {
     showError(e, '*Excess vote');
   }
 });
+
 upVote4.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 4);
@@ -183,6 +185,7 @@ upVote4.addEventListener('click', (e) => {
     showError(e, '*Excess vote');
   }
 });
+
 upVote5.addEventListener('click', (e) => {
   if (availableVotes > 0) {
     increaseVoteCount(e, 5);
@@ -204,6 +207,7 @@ downVote0.addEventListener('click', (e) => {
     decreaseVoteCountOnly(e, 0);
   }
 });
+
 downVote1.addEventListener('click', (e) => {
   if (
     e.target.nextElementSibling.value > 0 &&
@@ -214,6 +218,7 @@ downVote1.addEventListener('click', (e) => {
     decreaseVoteCountOnly(e, 1);
   }
 });
+
 downVote2.addEventListener('click', (e) => {
   if (
     e.target.nextElementSibling.value > 0 &&
@@ -224,6 +229,7 @@ downVote2.addEventListener('click', (e) => {
     decreaseVoteCountOnly(e, 2);
   }
 });
+
 downVote3.addEventListener('click', (e) => {
   if (
     e.target.nextElementSibling.value > 0 &&
@@ -234,6 +240,7 @@ downVote3.addEventListener('click', (e) => {
     decreaseVoteCountOnly(e, 3);
   }
 });
+
 downVote4.addEventListener('click', (e) => {
   if (
     e.target.nextElementSibling.value > 0 &&
@@ -244,6 +251,7 @@ downVote4.addEventListener('click', (e) => {
     decreaseVoteCountOnly(e, 4);
   }
 });
+
 downVote5.addEventListener('click', (e) => {
   if (
     e.target.nextElementSibling.value > 0 &&
@@ -319,6 +327,7 @@ const viewLeaderBoard = () => {
     `;
     document.querySelector('body').innerHTML = results;
   } else {
+    // Show error
     document.querySelector('.view-leaderboard-error').style.display = 'block';
     setTimeout(() => {
       document.querySelector('.view-leaderboard-error').style.display = 'none';
@@ -331,7 +340,7 @@ document
   .querySelector('.view-leaderboard')
   .addEventListener('click', viewLeaderBoard);
 
-// Back TO VOTE
+// BACK TO VOTE / HOME PAGE
 document.querySelector('body').addEventListener('click', (e) => {
   if (e.target.className === 'back-to-vote') {
     window.location.reload();
