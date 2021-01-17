@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  padding: 5% 20%;
+  background-color: #322f36;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  overflow-x: hidden;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+img {
+  width: 100%;
+}
+
+.voting-board,
+.leaderboard {
+  background: #fff;
+  border-radius: 0.3rem;
+  padding: 3.5%;
+  padding-bottom: 6%;
+  width: 70vw;
+}
+
+.votes-progress {
+  background: #232b3d;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.votes-progress > * {
+  width: 100%;
+}
+
+.votes-progress p {
+  color: #fff;
+  font-size: 2rem;
+}
+
+.available-votes {
+  color: #a7aab1;
+  padding: 1rem 0;
+  font-size: 4.5rem;
+  font-weight: 700;
+}
+
+progress::-webkit-progress-bar {
+  border-radius: 5rem;
+  background: #424b5f;
+}
+
+progress[value] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 1rem;
+}
+
+progress[value]::-webkit-progress-value {
+  background-color: #f7b354;
+  border-radius: 10rem;
+}
+
+.housemates {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 3rem;
+  padding: 4rem 1rem;
+}
+
+.housemate {
+  display: flex;
+  border: 1.2px solid #e8e8e8;
+  padding: 2rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.housemate > *:first-child {
+  margin-right: 2rem;
+}
+
+.housemates img {
+  height: 4.5rem;
+  width: 4.5rem;
+  border-radius: 50%;
+}
+
+.housemate p,
+.lb-housemate p {
+  font-weight: 500;
+  font-size: 1.6rem;
+}
+
+.votes-count {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.votes-count div {
+  border: 1.5px solid #e8e8e8;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.votes-count input {
+  border: none;
+  border-top: 1.5px solid #e8e8e8;
+  border-bottom: 1.5px solid #e8e8e8;
+  width: 6rem;
+  height: 2.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.down-vote {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.up-vote {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.voting-board > *:last-child,
+.leaderboard > *:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.view-leaderboard,
+.back-to-vote {
+  background: #1e2a5a;
+  color: #fff;
+  padding: 1rem 3rem;
+  border-radius: 0.6rem;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+small {
+  color: #ee1a30;
+}
+
+.view-leaderboard-error {
+  margin-top: 1rem;
+  display: none;
+}
+
+.leaderboard {
+  padding-bottom: 20%;
+}
+
+.leaderboard-heading {
+  font-weight: 700;
+  font-size: 2.3rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.lb-housemate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.2px solid #e8e8e8;
+  padding: 2rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.lb-housemate > *:first-child {
+  display: flex;
+  align-items: center;
+}
+
+.lb-housemate > *:first-child img {
+  margin-right: 1rem;
+}
+
+.lb-housemate > *:last-child {
+  font-weight: 600;
+
+  background: #1e2a5a;
+  color: #fff;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.evicted {
+  text-align: center;
+  margin: 4rem 0;
+  color: #18bbb6;
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 768px) {
+  body {
+    font-size: 1.6rem;
+    padding: 5% 5%;
+  }
+
+  .voting-board,
+  .leaderboard {
+    width: 75vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .voting-board,
+  .leaderboard {
+    width: 90vw;
+  }
+
+  .housemates {
+    grid-template-columns: 1fr;
+  }
+
+  .housemate {
+    display: flex;
+    border: 1.2px solid #e8e8e8;
+    padding: 2rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .housemates img {
+    height: 4.5rem;
+    width: 4.5rem;
+    border-radius: 50%;
+  }
+}
