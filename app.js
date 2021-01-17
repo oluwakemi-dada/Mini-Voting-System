@@ -81,6 +81,8 @@ housemates.addEventListener('input', (e) => {
     if (e.target.value < 0) {
       // Invalid Vote
       showError(e, '*Invalid vote');
+      e.target.value = 0;
+      voteByInput(e);
     } else {
       voteByInput(e);
     }
