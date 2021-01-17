@@ -130,13 +130,6 @@ const decreaseVoteCountOnly = (e, index) => {
   voteByInput(e);
 };
 
-// INCREASE VOTE COUNT ONLY
-// const increaseVoteCountOnly = (e, index) => {
-//   voteCount[index] = 1;
-//   e.target.previousElementSibling.value = voteCount[index];
-//   voteByInput(e);
-// };
-
 // UPVOTES
 upVote0.addEventListener('click', (e) => {
   if (availableVotes > 0) {
