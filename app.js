@@ -1,28 +1,25 @@
 // GET ELEMENTS
-const progress = document.querySelector('progress');
-const upVote0 = document.querySelector('.up-vote0');
-const downVote0 = document.querySelector('.down-vote0');
-const upVote1 = document.querySelector('.up-vote1');
-const downVote1 = document.querySelector('.down-vote1');
-const upVote2 = document.querySelector('.up-vote2');
-const downVote2 = document.querySelector('.down-vote2');
-const upVote3 = document.querySelector('.up-vote3');
-const downVote3 = document.querySelector('.down-vote3');
-const upVote4 = document.querySelector('.up-vote4');
-const downVote4 = document.querySelector('.down-vote4');
-const upVote5 = document.querySelector('.up-vote5');
-const downVote5 = document.querySelector('.down-vote5');
 const housemates = document.querySelector('.housemates');
 const availableVotesEl = document.querySelector('.available-votes');
+const progress = document.querySelector('progress');
 const votes = document.querySelectorAll('.votes');
 const votesArr = Array.from(votes);
 
-// DEFAULT VALUES ON INITIALIZATION
-const housematesTBE = ['Dorathy', 'Ozo', 'Vee', 'Laycon', 'Nengi', 'Neo'];
+// DEFAULT VALUES UPON INITIALIZATION
+const housematesTBE = [
+  { name: 'Dorathy', voteCount: 0 },
+  { name: 'Ozo', voteCount: 0 },
+  { name: 'Vee', voteCount: 0 },
+  { name: 'Laycon', voteCount: 0 },
+  { name: 'Nengi', voteCount: 0 },
+  { name: 'Neo', voteCount: 0 },
+];
+
 const totalVotes = 10000;
 let availableVotes = 10000;
-let voteCount = [0, 0, 0, 0, 0, 0];
 let usedVotes = 0;
+let upVoteValue;
+let downVoteValue;
 progress.max = totalVotes;
 progress.value = availableVotes;
 availableVotesEl.textContent = availableVotes
@@ -57,10 +54,10 @@ const voteByInput = (e) => {
     const voteValue = parseInt(vote.value);
     if (!isNaN(voteValue)) {
       usedVotes += voteValue;
-      voteCount[index] = voteValue;
+      housematesTBE[index].voteCount = voteValue;
       // If input value is NaN
     } else {
-      voteCount[index] = 0;
+      housematesTBE[index].voteCount = 0;
     }
   });
   availableVotes = totalVotes - usedVotes;
@@ -75,7 +72,7 @@ const voteByInput = (e) => {
   }
 };
 
-// VOTE BY INPUT
+// INPUT EVENT
 housemates.addEventListener('input', (e) => {
   if (e.target.className === 'votes') {
     if (e.target.value < 0) {
@@ -89,169 +86,95 @@ housemates.addEventListener('input', (e) => {
   }
 });
 
-// DECREASE AVAILABLE VOTES
-const decreaseAvailableVotes = () => {
-  // Update available votes and Progress bar
-  availableVotes--;
-  availableVotesEl.textContent = availableVotes
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-  progress.value = availableVotes;
+// VOTE BY UPVOTES
+const voteByUpvote = (e) => {
+  upVoteValue = parseInt(e.target.previousElementSibling.value);
+  upVoteValue++;
+  e.target.previousElementSibling.value = upVoteValue;
+  usedVotes = 0;
+  votesArr.forEach((vote, index) => {
+    const voteValue = parseInt(vote.value);
+    if (!isNaN(voteValue)) {
+      usedVotes += voteValue;
+      housematesTBE[index].voteCount = voteValue;
+    }
+  });
+  availableVotes = totalVotes - usedVotes;
+  if (availableVotes > -1) {
+    // Update available votes and Progress bar
+    availableVotesEl.textContent = availableVotes
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    progress.value = availableVotes;
+  } else {
+    showError(e, '*Excess vote');
+  }
 };
 
-// INCREASE AVAILABLE VOTES
-const increaseAvailableVotes = () => {
-  // Update available votes and Progress bar
-  availableVotes++;
-  availableVotesEl.textContent = availableVotes
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-  progress.value = availableVotes;
+// UP-VOTES EVENT
+housemates.addEventListener('click', (e) => {
+  if (e.target.className === 'up-vote') {
+    if (availableVotes > 0) {
+      voteByUpvote(e);
+    } else {
+      showError(e, '*Excess vote');
+    }
+  }
+});
+
+// VOTE BY DOWNVOTES
+const voteByDownvote = (e) => {
+  downVoteValue = parseInt(e.target.nextElementSibling.value);
+  downVoteValue--;
+  e.target.nextElementSibling.value = downVoteValue;
+  usedVotes = 0;
+  votesArr.forEach((vote, index) => {
+    const voteValue = parseInt(vote.value);
+    if (!isNaN(voteValue)) {
+      usedVotes += voteValue;
+      housematesTBE[index].voteCount = voteValue;
+    }
+  });
+  availableVotes = totalVotes - usedVotes;
+  if (availableVotes > -1) {
+    // Update available votes and Progress bar
+    availableVotesEl.textContent = availableVotes
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    progress.value = availableVotes;
+  } else {
+    showError(e, '*Excess vote');
+  }
 };
 
-// INCREASE VOTE COUNT
-const increaseVoteCount = (e, index) => {
-  voteCount[index]++;
-  e.target.previousElementSibling.value = voteCount[index];
-  decreaseAvailableVotes();
-};
-
-// DECREASE VOTE COUNT
-const decreaseVoteCount = (e, index) => {
-  voteCount[index]--;
-  e.target.nextElementSibling.value = voteCount[index];
-  increaseAvailableVotes();
-};
-
-// DECREASE COUNT ONLY
-const decreaseVoteCountOnly = (e, index) => {
-  voteCount[index]--;
-  e.target.nextElementSibling.value = voteCount[index];
-  voteByInput(e);
-};
-
-// UPVOTES
-upVote0.addEventListener('click', (e) => {
-  if (availableVotes > 0) {
-    increaseVoteCount(e, 0);
-  } else {
-    showError(e, '*Excess vote');
-  }
-});
-
-upVote1.addEventListener('click', (e) => {
-  if (availableVotes > 0) {
-    increaseVoteCount(e, 1);
-  } else {
-    showError(e, '*Excess vote');
-  }
-});
-
-upVote2.addEventListener('click', (e) => {
-  if (availableVotes > 0) {
-    increaseVoteCount(e, 2);
-  } else {
-    showError(e, '*Excess vote');
-  }
-});
-
-upVote3.addEventListener('click', (e) => {
-  if (availableVotes > 0) {
-    increaseVoteCount(e, 3);
-  } else {
-    showError(e, '*Excess vote');
-  }
-});
-
-upVote4.addEventListener('click', (e) => {
-  if (availableVotes > 0) {
-    increaseVoteCount(e, 4);
-  } else {
-    showError(e, '*Excess vote');
-  }
-});
-
-upVote5.addEventListener('click', (e) => {
-  if (availableVotes > 0) {
-    increaseVoteCount(e, 5);
-  } else {
-    showError(e, '*Excess vote');
-  }
-});
-
-// DOWNVOTES
-downVote0.addEventListener('click', (e) => {
-  if (
-    e.target.nextElementSibling.value > 0 &&
-    e.target.nextElementSibling.value <= totalVotes
-  ) {
-    decreaseVoteCount(e, 0);
-  } else if (availableVotes < 0) {
-    decreaseVoteCountOnly(e, 0);
-  }
-});
-
-downVote1.addEventListener('click', (e) => {
-  if (
-    e.target.nextElementSibling.value > 0 &&
-    e.target.nextElementSibling.value <= totalVotes
-  ) {
-    decreaseVoteCount(e, 1);
-  } else if (availableVotes < 0) {
-    decreaseVoteCountOnly(e, 1);
-  }
-});
-
-downVote2.addEventListener('click', (e) => {
-  if (
-    e.target.nextElementSibling.value > 0 &&
-    e.target.nextElementSibling.value <= totalVotes
-  ) {
-    decreaseVoteCount(e, 2);
-  } else if (availableVotes < 0) {
-    decreaseVoteCountOnly(e, 2);
-  }
-});
-
-downVote3.addEventListener('click', (e) => {
-  if (
-    e.target.nextElementSibling.value > 0 &&
-    e.target.nextElementSibling.value <= totalVotes
-  ) {
-    decreaseVoteCount(e, 3);
-  } else if (availableVotes < 0) {
-    decreaseVoteCountOnly(e, 3);
-  }
-});
-
-downVote4.addEventListener('click', (e) => {
-  if (
-    e.target.nextElementSibling.value > 0 &&
-    e.target.nextElementSibling.value <= totalVotes
-  ) {
-    decreaseVoteCount(e, 4);
-  } else if (availableVotes < 0) {
-    decreaseVoteCountOnly(e, 4);
-  }
-});
-
-downVote5.addEventListener('click', (e) => {
-  if (
-    e.target.nextElementSibling.value > 0 &&
-    e.target.nextElementSibling.value <= totalVotes
-  ) {
-    decreaseVoteCount(e, 5);
-  } else if (availableVotes < 0) {
-    decreaseVoteCountOnly(e, 5);
+// DOWN-VOTE EVENT
+housemates.addEventListener('click', (e) => {
+  if (e.target.className === 'down-vote') {
+    if (
+      e.target.nextElementSibling.value > 0 &&
+      e.target.nextElementSibling.value <= totalVotes
+    ) {
+      voteByDownvote(e);
+    } else if (
+      availableVotes < 0 &&
+      parseInt(e.target.nextElementSibling.value) > 0
+    ) {
+      downVoteValue = parseInt(e.target.nextElementSibling.value);
+      downVoteValue--;
+      e.target.nextElementSibling.value = downVoteValue;
+      voteByInput(e);
+    }
   }
 });
 
 // VIEW LEADERBOARD
 const viewLeaderBoard = () => {
   if (availableVotes === 0) {
-    // Find Minimum vote
-    const minVote = Math.min(...voteCount);
-    const minVoteIndex = voteCount.indexOf(minVote);
+    // Sort Vote Count
+    housematesTBE.sort((a, b) => {
+      return b.voteCount - a.voteCount;
+    });
+    console.log(housematesTBE);
 
     // Populate results
     document.querySelector('body').textContent = '';
@@ -259,56 +182,34 @@ const viewLeaderBoard = () => {
       <section class="leaderboard">
       <div class='leaderboard-heading'>Leaderboard</div>
       <div class="housemates">
-        <div class="lb-housemate">
-          <div>
-            <img src="./img/dorathy.jpg" />
-            <p>${housematesTBE[0]}</p>
-          </div>
-          <div>${voteCount[0]}</div>
-        </div>
-        <div class="lb-housemate">
-          <div>
-            <img src="./img/ozo.jpg" />
-            <p>${housematesTBE[1]}</p>
-          </div>
-          <div>${voteCount[1]}</div>
-        </div>
-        <div class="lb-housemate">
-          <div>
-            <img src="./img/vee.jpg" />
-            <p>${housematesTBE[2]}</p>
-          </div>
-          <div>${voteCount[2]}</div>
-        </div>
-        <div class="lb-housemate">
-          <div>
-            <img src="./img/laycon.jpg" />
-            <p>${housematesTBE[3]}</p>
-          </div>
-          <div>${voteCount[3]}</div>
-        </div>
-        <div class="lb-housemate">
-          <div>
-            <img src="./img/nengi.jpg" />
-            <p>${housematesTBE[4]}</p>
-          </div>
-          <div>${voteCount[4]}</div>
-        </div>
-        <div class="lb-housemate">
-          <div>
-            <img src="./img/neo.jpg" />
-            <p>${housematesTBE[5]}</p>
-          </div>
-          <div>${voteCount[5]}</div>
-        </div>
+        
       </div>
-      <p class="evicted">${housematesTBE[minVoteIndex]} was evicted</p>
+      <p class="evicted">${
+        housematesTBE[housematesTBE.length - 1].name
+      } was evicted</p>
       <div>
         <div class="back-to-vote">Back To Vote</div>
       </div>
     </section>
     `;
+
     document.querySelector('body').innerHTML = results;
+
+    let output = '';
+    housematesTBE.forEach((hmTBE, index) => {
+      output += `
+      <div class="lb-housemate">
+         <div>
+           <img src="./img/${hmTBE.name}.jpg" />
+           <p>${hmTBE.name}</p>
+         </div>
+         <div>${index + 1}</div>
+       </div>
+      `;
+    });
+    document
+      .querySelector('.housemates')
+      .insertAdjacentHTML('beforeend', output);
   } else {
     // Show error
     document.querySelector('.view-leaderboard-error').style.display = 'block';
