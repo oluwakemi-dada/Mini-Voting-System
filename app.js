@@ -36,10 +36,10 @@ const removeError = () => {
 // SHOW ERROR MESSAGE
 const showError = (e, msg) => {
   if (e.target.parentElement.nextElementSibling) {
-    document.querySelector('small').style.display = 'none';
+    // DO NOTHING
   } else {
     const output = `
-    <small>${msg}</small>
+    <small class="error-msg">${msg}</small>
     `;
 
     e.target.parentElement.insertAdjacentHTML('afterend', output);
